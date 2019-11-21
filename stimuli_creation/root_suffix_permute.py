@@ -1,3 +1,4 @@
+# leg5@nyu.edu
 # make stimuli permutations
 
 import numpy as np
