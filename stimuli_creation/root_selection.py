@@ -4,12 +4,14 @@
 import pandas as pd
 
 # paths
-root_dir = '/Users/lauragwilliams/Documents/experiments/brothelo/exp_design/stim_create/NonWord.csv'
+git_root = '/Users/lauragwilliams/Documents/experiments/brothelo/MorphComp'
+input_fname = '%s/stimuli_creation/corpus_input_files/NonWord.csv' % (git_root)
+output_fname = '%s/stimuli_creation/parsed_output/parsed_roots.csv' % (git_root)
 
 # load data
-df = pd.read_csv(root_dir)
+df = pd.read_csv(input_fname)
 
-# not nan
+# not nan or #
 not_nan_idx = np.array(map(str, df['Word'].values)) != 'nan'
 df = df[not_nan_idx]
 not_nan_idx = np.array(map(str, df['BG_Mean'].values)) != '#'
@@ -43,6 +45,8 @@ m_idx = np.array([string[-2:] != 'en' for string in df['Word'].values])
 df = df[m_idx]
 
 # take words of different lengths
-df_short_words = df.query("Length < 5")['Word'].values
-df_mid_words = df.query("Length >= 5 and Length < 7")['Word'].values
-df_long_words = df.query("Length >= 7 and Length < 9")['Word'].values
+df.to_csv(output_fname)
+
+# df_short_words = df.query("Length < 5")['Word'].values
+# df_mid_words = df.query("Length >= 5 and Length < 7")['Word'].values
+# df_long_words = df.query("Length >= 7 and Length < 9")['Word'].values
