@@ -2,6 +2,7 @@
 # leg5@nyu.edu
 
 import pandas as pd
+import numpy as np
 
 # paths
 git_root = '/Users/lauragwilliams/Documents/experiments/brothelo/MorphComp'
@@ -18,9 +19,9 @@ not_nan_idx = np.array(map(str, df['BG_Mean'].values)) != '#'
 df = df[not_nan_idx]
 
 # mean accuracy as a non-word
-df = df.query("NWI_Mean_Accuracy > 0.7 and NWI_Mean_Accuracy < 0.9").reset_index()
+df = df.query("NWI_Mean_Accuracy > 0.5").reset_index()
 df['BG_Mean'] = np.array([float(val.replace(',','')) for val in df['BG_Mean'].values])
-df = df.query("BG_Mean > 1000").reset_index()
+df = df.query("BG_Mean > 200").reset_index()
 
 # ending in a certain string
 vowel_cons = ['am', 'em', 'im', 'om', 'um', 'ym',
@@ -45,7 +46,7 @@ m_idx = np.array([string[-2:] != 'en' for string in df['Word'].values])
 df = df[m_idx]
 
 # take words of different lengths
-df.to_csv(output_fname)
+# df.to_csv(output_fname)
 
 # df_short_words = df.query("Length < 5")['Word'].values
 # df_mid_words = df.query("Length >= 5 and Length < 7")['Word'].values
