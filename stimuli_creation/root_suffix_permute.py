@@ -6,18 +6,19 @@ import pandas as pd
 
 # paths
 git_root = '/Users/lauragwilliams/Documents/experiments/brothelo/MorphComp'
-input_fname = '%s/stimuli_creation/parsed_output/parsed_roots.csv' % (git_root)
+input_fname = '%s/stimuli_creation/parsed_output/picked_roots-annotated.csv' % (git_root)
 output_fname = '%s/stimuli_creation/parsed_output/word_candidates.csv' % (git_root)
 
 # load roots
 root_df = pd.read_csv(input_fname)
-roots = root_df['Word'].values
+root_df = root_df.query("accept == 1")
+roots = root_df['root'].values
 
 # define suffixes
 suffix_dict = {'NN': ['ist', 'ade', 'ry'],
 			   'VN': ['ize'],
 			   'NV': ['ure', 'age', 'or'],
-			   'VV': ['le'],
+			   # 'VV': ['le'],
 			   'AN': ['ic', 'ful', 'al'],
 			   'NA': ['ence', 'tude'],
 			   'AV': ['able', 'ent', 'ite']}
@@ -76,16 +77,36 @@ for sequence in sequences:
 					continue
 
 				# add suffixes to root, and add to bin
-				for root in roots:
-					word_string = ''.join([root, s1, s2, s3]) #
+				for root, nsyll in root_df[['root', 'nsyll']].values:
+					if nsyll == 1:
+						word_string = ''.join([root, s1, s2, s3])
+						s1s.append(s1)
+						s2s.append(s2)
+						s3s.append(s3)
+						t1s.append(seq1)
+						t2s.append(seq2)
+						t3s.append(seq3)
+
+					if nsyll == 2:
+						word_string = ''.join([root, s1, s2])
+						s1s.append(s1)
+						s2s.append(s2)
+						s3s.append('')
+						t1s.append(seq1)
+						t2s.append(seq2)
+						t3s.append('')
+
+					if nsyll == 3:
+						word_string = ''.join([root, s1])
+						s1s.append(s1)
+						s2s.append('')
+						s3s.append('')
+						t1s.append(seq1)
+						t2s.append('')
+						t3s.append('')
+
 					word_sequences.append(word_string)
 					root_list.append(root)
-					s1s.append(s1)
-					s2s.append(s2)
-					s3s.append(s3)
-					t1s.append(seq1)
-					t2s.append(seq2)
-					t3s.append(seq3)
 					all_sequences.append('_'.join(sequence))
 
 # save results
