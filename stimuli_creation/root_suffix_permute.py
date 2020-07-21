@@ -8,6 +8,7 @@ import pandas as pd
 git_root = '/Users/lauragwilliams/Documents/experiments/brothelo/MorphComp'
 input_fname = '%s/stimuli_creation/parsed_output/picked_roots-annotated.csv' % (git_root)
 output_fname = '%s/stimuli_creation/parsed_output/word_candidates.csv' % (git_root)
+input_fname = '%s/stimuli_creation/parsed_output/picked_roots-annotated_example.csv' % (git_root)
 
 # load roots
 root_df = pd.read_csv(input_fname)
@@ -21,7 +22,7 @@ suffix_dict = {'NN': ['ist', 'ade', 'ry'],
 			   # 'VV': ['le'],
 			   'AN': ['ic', 'ful', 'al'],
 			   'NA': ['ence', 'tude'],
-			   'AV': ['able', 'ent', 'ite']}
+			   'AV': ['ent', 'ite']}  #'able', 
 
 # create sequences
 trans = suffix_dict.keys()
@@ -69,12 +70,12 @@ for sequence in sequences:
 				if s1 == s2 or s2 == s3 or s1 == s3:
 					continue
 
-				if s1 == 'ic' and s2 == 'ence' or s2 == 'ic' and s3 == 'ence':
-					continue
-				if s1 == 'ic' and s2 == 'ite' or s2 == 'ic' and s3 == 'ite':
-					continue
-				if s1 == 'dom' or s2 == 'dom':
-					continue
+				# if s1 == 'ic' and s2 == 'ence' or s2 == 'ic' and s3 == 'ence':
+				# 	continue
+				# if s1 == 'ic' and s2 == 'ite' or s2 == 'ic' and s3 == 'ite':
+				# 	continue
+				# if s1 == 'dom' or s2 == 'dom':
+				# 	continue
 
 				# add suffixes to root, and add to bin
 				for root, nsyll in root_df[['root', 'nsyll']].values:
